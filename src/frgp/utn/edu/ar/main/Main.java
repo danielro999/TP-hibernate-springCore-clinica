@@ -90,7 +90,6 @@ public class Main {
 		paciente1.setCorreoElectronico("correo1@example.com");
 		paciente1.setEstado(true);
 	
-
 		Paciente paciente2 = (Paciente) appContext.getBean("beanPaciente");
 		paciente2.setNombre("walter");
 		paciente2.setApellido("guerrero");
@@ -102,17 +101,42 @@ public class Main {
 		paciente2.setFechaNacimiento("2999-01-01");
 		paciente2.setCorreoElectronico("correo1@example.com");
 		paciente2.setEstado(true);
+		
+		Paciente paciente3 = (Paciente) appContext.getBean("beanPaciente");
+		paciente3.setNombre("walter");
+		paciente3.setApellido("guerrero");
+		paciente3.setDni("12345678");
+		paciente3.setTelefono("555-1234567");
+		paciente3.setDireccion("Calle 233");
+		paciente3.setLocalidad("Ciudad1");
+		paciente3.setProvincia("Provincia1");
+		paciente3.setFechaNacimiento("2999-01-01");
+		paciente3.setCorreoElectronico("correo1@example.com");
+		paciente3.setEstado(true);
 	
-
 		PacienteNegocio pacienteNegocio = (PacienteNegocio) appContext.getBean("beanPacienteNegocio");
 		boolean agregado = pacienteNegocio.add(paciente1);
 		boolean agregado2 = pacienteNegocio.add(paciente2);
+		boolean agregado3 = pacienteNegocio.add(paciente3);
 
 		System.out.println("\n ----- pacientes -----");
 		List<Paciente> listaPaciente = pacienteNegocio.readAll();
 		for (Paciente paciente0 : listaPaciente) {
 			System.out.println(paciente0);
 		}
+		
+		
+//		cambio de estado y update paciente		
+		paciente2.setEstado(false);
+		pacienteNegocio.update(paciente2);
+		System.out.println("\n paciente con id= " + paciente2.getId() + " cambiado el estado a false");
+		
+		System.out.println("\n ----- pacientes ACTIVOS -----");
+		List<Paciente> listaPacienteAct = pacienteNegocio.readAllActive();
+		for (Paciente paciente0 : listaPacienteAct) {
+			System.out.println("id paciente activo id= " + paciente0.getId());
+		}
+		
 		
 		// crear usuario (objetos)
 		Usuario usuario1 = (Usuario) appContext.getBean("beanUsuario");
@@ -140,7 +164,19 @@ public class Main {
 		System.out.println("\n ----- usuarios -----");
 		List<Usuario> usuarios = usuarioNegocio.readAll();
 		usuarios.forEach(System.out::println);
-//
+		
+		
+//		cambio de estado y update usuario	
+		usuario2.setEstado(false);
+		usuarioNegocio.update(usuario2);
+		System.out.println("\n usuario " + usuario2.getId() + " cambiado el estado a false");
+		
+		System.out.println("\n ----- usuarios ACTIVOS -----");
+		List<Usuario> listaUsuariosAct = usuarioNegocio.readAllActive();
+		for (Usuario usuario : listaUsuariosAct) {
+			System.out.println("id usuario activo id= " + usuario.getId());
+		}	
+				
 /*Horario medico*/		
 		
 		HorarioTrabajo horarioMedico1 =  (HorarioTrabajo) appContext.getBean("beanHorarioTrabajo");
@@ -201,6 +237,17 @@ public class Main {
 		for (Medico medico : listaMedico) {
 			System.out.println(medico);
 		}
+		
+		medico1.setEstado(false);
+		medicoNegocio.update(medico1);
+		System.out.println("\n medico " + medico1.getLegajo() + " cambiado el estado a false");
+		
+		System.out.println("\n ----- medicos ACTIVOS-----");
+		List<Medico> listaMedicoActivos = medicoNegocio.readAllActive();
+		for (Medico medico : listaMedicoActivos) {
+			System.out.println("id medico activo id= " + medico.getLegajo());
+		}
+		
 			
 	//turnos
 		
@@ -228,18 +275,15 @@ public class Main {
 		List<Turno> listaTurno = turnoNegocio.readAll();
 		listaTurno.forEach(System.out::println);
 		
-//    	
-		medico1.setEstado(false);
-		medicoNegocio.update(medico1);
-		System.out.println("\n medico " + medico1.getLegajo() + " con estado false");
-		
-		System.out.println("\n ----- medicos activos-----");
-		List<Medico> listaMedicoActivos = medicoNegocio.readAllActive();
-		for (Medico medico : listaMedicoActivos) {
-			System.out.println("id medico= " + medico.getLegajo());
-		}
 		
 		
+//    	update estado false para el borrado logico
+		
+
+		
+
+		
+
 		
 		((ClassPathXmlApplicationContext) appContext).close();
 

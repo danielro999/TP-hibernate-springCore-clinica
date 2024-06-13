@@ -74,6 +74,13 @@ public class DaoUsuario implements IdaoUsuario {
         List<Usuario> usuarios = session.createQuery("FROM Usuario").list();
         return usuarios;
 	}
+	
+	public List<Usuario> readAllActive() {
+		Session session = conexion.abrirConexion();
+        session.beginTransaction();
+        List<Usuario> usuarios = session.createQuery("FROM Usuario where estado= 1").list();
+        return usuarios;
+	}
 
 	//Existe o es repetido
 	public boolean exist(String nombreUsuario) {
